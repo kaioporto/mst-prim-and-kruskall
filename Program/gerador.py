@@ -1,21 +1,22 @@
-from uniao import UniaoDisjunta
+from uniao import Disjoint
 from grafo_lista_adj import GrafoListaAdj
-from grafo_matriz_adj import GrafoMatrizAdj
-def ArvoreGerMinima(G: GrafoListaAdj|GrafoMatrizAdj):
-    S = UniaoDisjunta(G.n)
-    for v in G.V():
-        S.Insere(v)
+def ArvoreGerMinima(a_graph: GrafoListaAdj):
+    an_union = Disjoint(a_graph.n)
+    for a_vertex in a_graph.get_vertices():
+        an_union.insert_vertex(a_vertex)
 
-    ET = []; E = []
+    ET = []; a_edges_list = []
 
-    for v in G.V():
-        for w_no in G.N(v, IterarSobreNo=True):
-            if w_no.Viz < v:
-                E.append(w_no.e)
-    E.sort(key=lambda e: e.w)
-    for e in E:
-        v,w = e.v1, e.v2
-        if S.Conjunto(v) != S.Conjunto(w):
-            S.Une(v, w)
-            ET.append(e)
+    for a_vertex in a_graph.get_vertices():
+        for a_node in a_graph.get_neighbors(a_vertex, use_node=True):
+            if a_node.neighbor < a_vertex:
+                a_edges_list.append(a_node.edge)
+
+    a_edges_list.sort(key=lambda e: a_edge.weight)
+
+    for a_edge in a_edges_list:
+        a_vertex, an_other_vertex = a_edge.vertex_one, a_edge.vertex_two
+        if an_union.get_group(a_vertex) != an_union.get_group(an_other_vertex):
+            an_union.join(a_vertex, an_other_vertex)
+            ET.append(a_edge)
     return ET

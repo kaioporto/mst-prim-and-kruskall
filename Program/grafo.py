@@ -5,13 +5,13 @@ class Grafo(object):
     def __int__(self, orientado = False):
         self.n, self.m, self.orientado = None, None, orientado
 
-    def DefinirN(self, n):
+    def set_quantity_vertices(self, quantity):
         """
         Define o número n de vértices
         """
-        self.n, self.m = n,0
+        self.n, self.m = quantity,0
 
-    def V(self):
+    def get_vertices(self):
         """
         Retorna a Lista de Vértices
         """
@@ -21,13 +21,13 @@ class Grafo(object):
     def E(self, IterararSobreNo = False):
         """
         Retorna lista de aresta uv, onde u é um inteiro e v é um inteiro se o grafo é GrafoMatrizAdj
-        ou InterarSobreNo=False; v é GrafoListaAdj.NoAresta, caso contrário.
+        ou InterarSobreNo=False; v é GrafoListaAdj.Node, caso contrário.
         """
-        for v in self.V():
-            for w in self.N(v, Tipo = "+" if self.orientado else "*", IterararSobreNo=IterararSobreNo):
+        for v in self.get_vertices():
+            for w in self.get_neighbors(v, Tipo = "+" if self.orientado else "*", IterararSobreNo=IterararSobreNo):
                 enumerar = True
                 if not self.orientado:
-                    wint = w if isinstance(w, int) else w.Viz
+                    wint = w if isinstance(w, int) else w.neighbor
                     enumerar = v < wint
                 if enumerar:
                     yield (v, w)

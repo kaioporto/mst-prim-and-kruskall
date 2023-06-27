@@ -1,10 +1,10 @@
-class UniaoDisjunta:
-    def __init__(self, n):
-        self.Pai, self.n = [None] * (n + 1), 0
+class Disjoint:
+    def __init__(self, quantity):
+        self.Pai, self.n = [None] * (quantity + 1), 0
 
-    def Une(self, u, v):
-        Ru = self.Conjunto(u)
-        Rv = self.Conjunto(v)
+    def join(self, a_vertex, an_other_vertex):
+        Ru = self.get_group(a_vertex)
+        Rv = self.get_group(an_other_vertex)
 
         if Ru != Rv:
             if -self.Pai[Ru] < -self.Pai[Rv]:
@@ -12,12 +12,12 @@ class UniaoDisjunta:
             else:
                 self.Pai[Rv], self.Pai[Ru] = Ru, self.Pai[Rv] + self.Pai[Ru]
 
-    def Conjunto(self, u):
-        if self.Pai[u] > 0:
-            self.Pai[u] = self.Conjunto(self.Pai[u])
-            return self.Pai[u]
+    def get_group(self, a_vertex):
+        if self.Pai[a_vertex] > 0:
+            self.Pai[a_vertex] = self.Conjunto(self.Pai[a_vertex])
+            return self.Pai[a_vertex]
         else:
-            return u
+            return a_vertex
 
-    def Insere(self, u):
+    def insert_vertex(self, a_vertex):
         self.Pai[self.n + 1], self.n = -1, self.n + 1
